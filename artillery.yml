@@ -1,0 +1,17 @@
+config:
+  target: 'http://siagro01.conabio.gob.mx:3003/graphql'
+  phases:
+    - duration: 10
+      arrivalRate: 1
+  processor: './index.js'
+scenarios:
+  - name: 'GraphQL Query load test'
+    flow:
+      - function: 'testCases'
+      - loop:
+          - post:
+              url: '/'
+              json:
+                query: '{{ $loopElement.query }}'
+                variables: '{{ $loopElement.variables }}'
+        over: cases

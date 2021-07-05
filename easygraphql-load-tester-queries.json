@@ -1,0 +1,1 @@
+[{"name":"booksConnection","operation":"query","query":"\n{\n  booksConnection(pagination:{first:50}){\n    books{\n      name\n      book_id\n    }\n  }\n}\n  ","variables":{}}]
