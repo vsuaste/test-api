@@ -11,27 +11,11 @@ const { fileLoader, mergeTypes} = require('merge-graphql-schemas')
 const schema_array = fileLoader(path.join(__dirname, './schemas'))
 const merged_schema = mergeTypes(schema_array)
 
-
-// console.log(merged_schema);
-
-// const args = {
-//   SEARCH_USER: [
-//     {
-//       name: 'bar',
-//     },
-//     {
-//       name: 'foo',
-//     },
-//   ],
-// }
-
-const customQueries = [`
+const customQueries = [`mutation UPDATE_BOOK
 {
-  booksConnection(pagination:{first:50}){
-    books{
-      name
-      book_id
-    }
+  updateBook(book_id:"instance2_a" name:"aa"){
+    book_id
+    name
   }
 }
   `]
@@ -42,7 +26,7 @@ const testCases = easyGraphQLLoadTester.artillery({
   customQueries,
   onlyCustomQueries: true,
   queryFile: true,
-  withMutations: false
+  withMutations: true
 })
 
 module.exports = { testCases }

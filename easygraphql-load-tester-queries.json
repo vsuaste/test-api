@@ -1,1 +1,1 @@
-[{"name":"booksConnection","operation":"query","query":"\n{\n  booksConnection(pagination:{first:50}){\n    books{\n      name\n      book_id\n    }\n  }\n}\n  ","variables":{}}]
+[{"name":"UPDATE_BOOK","operation":"mutation","query":"mutation UPDATE_BOOK\n{\n  updateBook(book_id:\"instance2_a\" name:\"aa\"){\n    book_id\n    name\n  }\n}\n  ","variables":{}}]
