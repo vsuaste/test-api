@@ -1,7 +1,7 @@
 config:
   target: 'http://siagro01.conabio.gob.mx:3003/graphql'
   phases:
-    - duration: 50
+    - duration: 1
       arrivalRate: 1
   processor: './index.js'
 scenarios:
@@ -13,5 +13,6 @@ scenarios:
               url: '/'
               json:
                 query: '{{ $loopElement.query }}'
-                variables: '{{ $loopElement.variables }}'
+          - log: "----------------------------------"
+          - log: "Sent a request to the Query: {{ $loopElement.name }}"
         over: cases
