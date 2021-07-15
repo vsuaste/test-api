@@ -66,18 +66,18 @@ class ZendroStressTest(HttpUser):
     #                 self.url1)
     #         self.requests+=1
 
-    # @task
-    # def stress_test_url2(self):
-    #     if self.requests==self.limit:
-    #         self.environment.runner.quit()
-    #     else:
-    #         for i in range(len(self.stress_queries_instance1)):
-    #             self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
-    #                 self.url2)
-    #         for i in range(len(self.stress_queries_instance2)):
-    #             self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
-    #                 self.url2)
-    #         self.requests+=2
+    @task
+    def stress_test_url2(self):
+        if self.requests==self.limit:
+            self.environment.runner.quit()
+        else:
+            for i in range(len(self.stress_queries_instance1)):
+                self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
+                    self.url2)
+            for i in range(len(self.stress_queries_instance2)):
+                self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
+                    self.url2)
+            self.requests+=2
 
     # @task
     # def test_url1_no_data_loader(self):
@@ -105,15 +105,15 @@ class ZendroStressTest(HttpUser):
     #                 self.url2)
     #         self.requests+=1
 
-    @task
-    def simple_query_url1(self):
-        if self.requests==self.limit:
-            self.environment.runner.quit()
-        else:
-            for i in range(len(self.simple_queries)):
-                self.post_query(self.simple_queries[i]["name"], self.simple_queries[i]["query"], 
-                    self.url1)
-            self.requests+=1
+    # @task
+    # def simple_query_url1(self):
+    #     if self.requests==self.limit:
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.simple_queries)):
+    #             self.post_query(self.simple_queries[i]["name"], self.simple_queries[i]["query"], 
+    #                 self.url1)
+    #         self.requests+=1
     
     # @task
     # def simple_query_url2(self):
