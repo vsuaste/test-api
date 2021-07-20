@@ -66,18 +66,18 @@ class ZendroStressTest(HttpUser):
     #                 self.url1)
     #         self.requests+=1
 
-    @task
-    def stress_test_url2(self):
-        if self.requests==self.limit:
-            self.environment.runner.quit()
-        else:
-            for i in range(len(self.stress_queries_instance1)):
-                self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
-                    self.url2)
-            for i in range(len(self.stress_queries_instance2)):
-                self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
-                    self.url2)
-            self.requests+=2
+    # @task
+    # def stress_test_url2(self):
+    #     if self.requests==self.limit:
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.stress_queries_instance1)):
+    #             self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
+    #                 self.url2)
+    #         for i in range(len(self.stress_queries_instance2)):
+    #             self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
+    #                 self.url2)
+    #         self.requests+=2
 
     # @task
     # def test_url1_no_data_loader(self):
@@ -138,15 +138,15 @@ class ZendroStressTest(HttpUser):
     #                 self.url1)
     #         self.requests+=1
 
-    # @task
-    # def local_query_url2(self):
-    #     if self.requests==self.limit:
-    #         self.environment.runner.quit()
-    #     else:
-    #         for i in range(len(self.local_query_no_search)):
-    #             self.post_query(self.local_query_no_search[i]["name"], self.local_query_no_search[i]["query"], 
-    #                 self.url2)
-    #         for i in range(len(self.local_query_search)):
-    #             self.post_query(self.local_query_search[i]["name"], self.local_query_search[i]["query"], 
-    #                 self.url2)
-    #         self.requests+=1
+    @task
+    def local_query_url2(self):
+        if self.requests==self.limit:
+            self.environment.runner.quit()
+        else:
+            for i in range(len(self.local_query_no_search)):
+                self.post_query(self.local_query_no_search[i]["name"], self.local_query_no_search[i]["query"], 
+                    self.url2)
+            for i in range(len(self.local_query_search)):
+                self.post_query(self.local_query_search[i]["name"], self.local_query_search[i]["query"], 
+                    self.url2)
+            self.requests+=1
