@@ -53,18 +53,18 @@ class ZendroStressTest(HttpUser):
     #                 self.url2)
     #         self.requests+=1
 
-    # @task
-    # def stress_test_url1(self):
-    #     if self.requests==self.limit:
-    #         self.environment.runner.quit()
-    #     else:
-    #         for i in range(len(self.stress_queries_instance1)):
-    #             self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
-    #                 self.url1)
-    #         for i in range(len(self.stress_queries_instance2)):
-    #             self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
-    #                 self.url1)
-    #         self.requests+=1
+    @task
+    def stress_test_url1(self):
+        if self.requests==self.limit:
+            self.environment.runner.quit()
+        else:
+            for i in range(len(self.stress_queries_instance1)):
+                self.post_query(self.stress_queries_instance1[i]["name"], self.stress_queries_instance1[i]["query"], 
+                    self.url1)
+            for i in range(len(self.stress_queries_instance2)):
+                self.post_query(self.stress_queries_instance2[i]["name"], self.stress_queries_instance2[i]["query"], 
+                    self.url1)
+            self.requests+=1
 
     # @task
     # def stress_test_url2(self):
@@ -138,6 +138,7 @@ class ZendroStressTest(HttpUser):
     #                 self.url1)
     #         self.requests+=1
 
+<<<<<<< HEAD
     @task
     def local_query_url2(self):
         if self.requests==self.limit:
@@ -150,3 +151,26 @@ class ZendroStressTest(HttpUser):
                 self.post_query(self.local_query_search[i]["name"], self.local_query_search[i]["query"], 
                     self.url2)
             self.requests+=1
+=======
+    # @task
+    # def local_query_url2(self):
+    #     if self.requests==self.limit:
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.local_query_no_search)):
+    #             self.post_query(self.local_query_no_search[i]["name"], self.local_query_no_search[i]["query"], 
+    #                 self.url2)
+    #         for i in range(len(self.local_query_search)):
+    #             self.post_query(self.local_query_search[i]["name"], self.local_query_search[i]["query"], 
+    #                 self.url2)
+    #         self.requests+=1
+
+    # @task
+    # def baseline_request_response_time(self):
+    #     if self.requests==self.limit:
+    #         self.environment.runner.quit()
+    #     else:
+    #         self.client.post(self.url1, name='baseline_url1', headers={ "Accept": "application/graphql"})
+    #         self.client.post(self.url2, name='baseline_url2', headers={ "Accept": "application/graphql"})
+    #         self.requests+=1
+>>>>>>> b1fc314d0ebcd8a56eba295197e415bc4c516161
