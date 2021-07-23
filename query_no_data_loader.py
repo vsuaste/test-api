@@ -41,68 +41,96 @@ def generate_queries(instance):
             }}""".format(instance=instance)
         },
         {
-            "name":"readOneBook_association_{instance}".format(instance=instance), 
+            "name":"readOneBook_connection_{instance}".format(instance=instance), 
             "query":"""{{
                 readOneBook(book_id:"{instance}_bk_12323"){{
                 book_id
                 name
                 country_ids
                 publisher_id
-                publisher(search: null){{
-                    name
-                }}
-                countriesConnection(pagination: {{first:2}}){{
+                countriesConnection(pagination: {{first:100}}){{
                     countries{{
+                        country_id
                         name
                     }}
-                }}
-                countFilteredCountries(search: null)
                 }}
             }}""".format(instance=instance)
         },
         { 
-            "name":"readOneCountry_association_{instance}".format(instance=instance), 
+            "name":"readOneCountry_connection_{instance}".format(instance=instance), 
             "query":"""{{
                 readOneCountry(country_id:"{instance}_ct_123232"){{
                 country_id
                 name
                 book_ids
-                capital(search: null){{
-                    name
-                }}
-                available_booksConnection(pagination: {{first:2}}){{
+                available_booksConnection(pagination: {{first:100}}){{
                     books{{
+                        book_id
                         name
                     }}
-                }}
-                countFilteredAvailable_books(search: null)
                 }}
             }}""".format(instance=instance)
         },
         { 
-            "name":"readOneCapital_association_{instance}".format(instance=instance), 
+            "name":"readOneCapital_connection_{instance}".format(instance=instance), 
             "query":"""{{
                 readOneCapital(capital_id:"{instance}_cp_12322"){{
                     capital_id
                     country_id
                     name
                     country(search: null){{
+                        country_id
                         name
                     }}
                 }}
             }}""".format(instance=instance)
         },
         {
-            "name":"readOnePublisher_association_{instance}".format(instance=instance), 
+            "name":"readOnePublisher_connection_{instance}".format(instance=instance), 
             "query":"""{{
                 readOnePublisher(publisher_id:"{instance}_pb_190322"){{
                     publisher_id
                     name
-                    booksConnection(pagination: {{first:2}}){{
+                    booksConnection(pagination: {{first:100}}){{
                         books{{
+                            book_id
                             name
                         }}
                     }}
+                    countFilteredBooks(search: null)
+                }}
+            }}""".format(instance=instance)
+        },
+        {
+            "name":"readOneBook_count_{instance}".format(instance=instance), 
+            "query":"""{{
+                readOneBook(book_id:"{instance}_bk_12323"){{
+                book_id
+                name
+                country_ids
+                publisher_id
+                countFilteredCountries(search: null)
+                }}
+            }}""".format(instance=instance)
+        },
+        { 
+            "name":"readOneCountry_count_{instance}".format(instance=instance), 
+            "query":"""{{
+                readOneCountry(country_id:"{instance}_ct_123232"){{
+                country_id
+                name
+                book_ids
+                countFilteredAvailable_books(search: null)
+                }}
+            }}""".format(instance=instance)
+        },
+
+        {
+            "name":"readOnePublisher_count_{instance}".format(instance=instance), 
+            "query":"""{{
+                readOnePublisher(publisher_id:"{instance}_pb_190322"){{
+                    publisher_id
+                    name
                     countFilteredBooks(search: null)
                 }}
             }}""".format(instance=instance)

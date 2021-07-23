@@ -1,5 +1,7 @@
 from locust import HttpUser, task
-import query, stress_query_with_search, simple_query_no_search, query_no_data_loader, local_query
+import query, stress_query_with_search, simple_query_no_search, distributed_pagination, query_association
+import local_query, local_pagination, local_association_count
+import query_no_data_loader
 from locust import events
 import locust.stats
 import csv
@@ -29,6 +31,15 @@ class ZendroStressTest(HttpUser):
     local_query_no_search = local_query.generate_queries("simple")
     local_query_search = local_query.generate_queries("search")
 
+    dist_pagination_instance1 = distributed_pagination.generate_queries("instance1")
+    dist_pagination_instance2 = distributed_pagination.generate_queries("instance2")
+
+    local_pagi = local_pagination.generate_queries()
+
+    local_assoc_count = local_association_count.generate_queries()
+
+    query_assoc_instance1 = query_association.generate_queries("instance1")
+    query_assoc_instance2 = query_association.generate_queries("instance2")
 
     def context(self):
         return {"num": self.num}
@@ -183,19 +194,6 @@ class ZendroStressTest(HttpUser):
     # @task
     # def local_query_url2(self):
     #     if self.requests==self.limit:
-    #         self.environment.runner.quit()
-    #     else:
-    #         for i in range(len(self.local_query_no_search)):
-    #             self.post_query(self.local_query_no_search[i]["name"], self.local_query_no_search[i]["query"], 
-    #                 self.url2)
-    #         for i in range(len(self.local_query_search)):
-    #             self.post_query(self.local_query_search[i]["name"], self.local_query_search[i]["query"], 
-    #                 self.url2)
-    #         self.requests+=1
-
-    # @task
-    # def local_query_url2(self):
-    #     if self.requests==self.limit:
     #         self.collect_raw_data("local_query_url2_raw_data_"+self.num+".csv")
     #         self.environment.runner.quit()
     #     else:
@@ -210,6 +208,7 @@ class ZendroStressTest(HttpUser):
     # @task
     # def baseline_request_response_time(self):
     #     if self.requests==self.limit:
+    #         self.collect_raw_data("basic_response_time_raw_data_"+self.num+".csv")
     #         self.environment.runner.quit()
     #     else:
     #         self.client.post(self.url1, name='baseline_url1', headers={ "Accept": "application/graphql"})
@@ -219,7 +218,65 @@ class ZendroStressTest(HttpUser):
     @task
     def const_response_time(self):
         if self.requests==self.limit:
+            self.collect_raw_data("const_response_time_raw_data_"+self.num+".csv")
             self.environment.runner.quit()
         else:
-            self.post_query("const_books", "{ const_books{book_id name} }", self.url2)
+            self.post_query("const_books_url1", "{ const_books{book_id name} }", self.url1)
+            self.post_query("const_books_url2", "{ const_books{book_id name} }", self.url2)
             self.requests+=1
+
+    # @task
+    # def local_pagi_assoc_count_url1(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("local_pagi_assoc_count_url1_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.local_pagi)):
+    #             self.post_query(self.local_pagi[i]["name"], self.local_pagi[i]["query"], 
+    #                 self.url1)
+    #         for i in range(len(self.local_assoc_count)):
+    #             self.post_query(self.local_assoc_count[i]["name"], self.local_assoc_count[i]["query"], 
+    #                 self.url1)
+    #         self.requests+=1
+
+    # @task
+    # def local_pagi_assoc_count_url2(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("local_pagi_assoc_count_url2_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.local_pagi)):
+    #             self.post_query(self.local_pagi[i]["name"], self.local_pagi[i]["query"], 
+    #                 self.url2)
+    #         for i in range(len(self.local_assoc_count)):
+    #             self.post_query(self.local_assoc_count[i]["name"], self.local_assoc_count[i]["query"], 
+    #                 self.url2)
+    #         self.requests+=1
+
+    # @task
+    # def dist_pagi_url1(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("dist_pagi_url1_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.dist_pagination_instance1)):
+    #             self.post_query(self.dist_pagination_instance1[i]["name"], self.dist_pagination_instance1[i]["query"], 
+    #                 self.url1)
+    #         for i in range(len(self.dist_pagination_instance2)):
+    #             self.post_query(self.dist_pagination_instance2[i]["name"], self.dist_pagination_instance2[i]["query"], 
+    #                 self.url1)
+    #         self.requests+=1
+
+    # @task
+    # def dist_pagi_url2(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("dist_pagi_url2_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.dist_pagination_instance1)):
+    #             self.post_query(self.dist_pagination_instance1[i]["name"], self.dist_pagination_instance1[i]["query"], 
+    #                 self.url2)
+    #         for i in range(len(self.dist_pagination_instance2)):
+    #             self.post_query(self.dist_pagination_instance2[i]["name"], self.dist_pagination_instance2[i]["query"], 
+    #                 self.url2)
+    #         self.requests+=1
