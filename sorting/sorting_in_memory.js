@@ -20,8 +20,8 @@ const orderRecords = async (
     for (let num of [100, 1000, 5000, 9000]){
       let row = [`sort_book_${num}_1_2`]
       for (let i of Array(100).keys()){
-        const nodes = records["books_instance1_4500"].slice(0, num/2)
-            .concat(records["books_instance2_4500"].slice(0, num/2))
+        const nodes = records["books_instance1_4500"].slice(0, num)
+            .concat(records["books_instance2_4500"].slice(0, num))
         const start = performance.now();
         const res = await orderRecords(nodes, order);
         const end = performance.now();
@@ -35,8 +35,8 @@ const orderRecords = async (
       row = [`sort_book_${num}_2_1`]      
 
       for (let i of Array(100).keys()){
-        const nodes = records["books_instance2_4500"].slice(0, num/2)
-            .concat(records["books_instance1_4500"].slice(0, num/2))
+        const nodes = records["books_instance2_4500"].slice(0, num)
+            .concat(records["books_instance1_4500"].slice(0, num))
         const start = performance.now();
         const res = await orderRecords(nodes, order);
         const end = performance.now();
