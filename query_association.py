@@ -95,31 +95,4 @@ def generate_queries(instance):
                 }}
             }}""".format(instance=instance)
         },
-        {
-            "name":"countBooks_{instance}".format(instance=instance), 
-            "query":"""{{
-                countBooks(search:{{field:book_id operator:like value:"{instance}%"}})
-                }}""".format(instance=instance)
-        },
-        { 
-            "name":"countCountry_{instance}".format(instance=instance), 
-            "query":"""{{
-                countCountries(search:{{field:country_id operator:like value:"{instance}%"}})
-            }}""".format(instance=instance)
-        },
-        { 
-            "name":"countCapital_{instance}".format(instance=instance), 
-            "query":"""{{
-                countCapitals(search:{{field:capital_id operator:like value:"{instance}%"}})
-            }}""".format(instance=instance)
-        },
-        {
-            "name":"countPublisher_{instance}".format(instance=instance), 
-            "query":"""{{
-                countPublishers(search:{{field:publisher_id operator:like value:"{instance}%"}})
-            }}""".format(instance=instance)
-        }
-
-
-
     ]
