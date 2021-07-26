@@ -215,15 +215,15 @@ class ZendroStressTest(HttpUser):
     #         self.client.post(self.url2, name='baseline_url2', headers={ "Accept": "application/graphql"})
     #         self.requests+=1
 
-    @task
-    def const_response_time(self):
-        if self.requests==self.limit:
-            self.collect_raw_data("const_response_time_raw_data_"+self.num+".csv")
-            self.environment.runner.quit()
-        else:
-            self.post_query("const_books_url1", "{ const_books{book_id name} }", self.url1)
-            self.post_query("const_books_url2", "{ const_books{book_id name} }", self.url2)
-            self.requests+=1
+    # @task
+    # def const_response_time(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("const_response_time_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         self.post_query("const_books_url1", "{ const_books{book_id name} }", self.url1)
+    #         self.post_query("const_books_url2", "{ const_books{book_id name} }", self.url2)
+    #         self.requests+=1
 
     # @task
     # def local_pagi_assoc_count_url1(self):
@@ -279,4 +279,32 @@ class ZendroStressTest(HttpUser):
     #         for i in range(len(self.dist_pagination_instance2)):
     #             self.post_query(self.dist_pagination_instance2[i]["name"], self.dist_pagination_instance2[i]["query"], 
     #                 self.url2)
+    #         self.requests+=1
+
+    @task
+    def dist_pagi_url2(self):
+        if self.requests==self.limit:
+            self.collect_raw_data("query_assoc_url2_raw_data_"+self.num+".csv")
+            self.environment.runner.quit()
+        else:
+            for i in range(len(self.query_assoc_instance1)):
+                self.post_query(self.query_assoc_instance1[i]["name"], self.query_assoc_instance1[i]["query"], 
+                    self.url2)
+            for i in range(len(self.query_assoc_instance2)):
+                self.post_query(self.query_assoc_instance2[i]["name"], self.query_assoc_instance2[i]["query"], 
+                    self.url2)
+            self.requests+=1
+
+    # @task
+    # def dist_pagi_url1(self):
+    #     if self.requests==self.limit:
+    #         self.collect_raw_data("query_assoc_url1_raw_data_"+self.num+".csv")
+    #         self.environment.runner.quit()
+    #     else:
+    #         for i in range(len(self.query_assoc_instance1)):
+    #             self.post_query(self.query_assoc_instance1[i]["name"], self.query_assoc_instance1[i]["query"], 
+    #                 self.url1)
+    #         for i in range(len(self.query_assoc_instance2)):
+    #             self.post_query(self.query_assoc_instance2[i]["name"], self.query_assoc_instance2[i]["query"], 
+    #                 self.url1)
     #         self.requests+=1
